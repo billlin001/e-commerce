@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <nav th:fragment="header" class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a th:href="@{/}" class="navbar-brand" href="/">E-Commercial Example</a>
+            </div>
+
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a th:href="@{/}">Products</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- Shopping Cart -->
+                    <li><a th:href="@{/shoppingCart}">Shopping Cart <span class="glyphicon glyphicon-shopping-cart"></span>(<span th:text="${session.currentCart==null ? 0 : session.currentCart.itemSize()}"></span>)</a></li>
+
+                    <!-- Login -->
+                    <li sec:authorize="!isAuthenticated()">
+                        <a th:href="@{/login}">Login</a>
+                    </li>
+
+                    <!-- Backstage Control Panel -->
+                    <li sec:authorize="isAuthenticated()" class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Hi,
+                            <span sec:authentication="principal.username">UserName</span>
+                            <span class="caret"></span>
+                        </a>
+
+                        <ul class="dropdown-menu">
+                            <li sec:authorize="hasAuthority('ADMIN')">
+                                <a th:href="@{'/admin/products'}">
+                                    Admin Panel
+                                </a>
+                            </li>
+                            <li>
+                                <a th:href="@{/user/orders/}">Personal Order List</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/logout}">Logout</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html layout:decorator="/fragments/admin_layout"
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+
+<div layout:fragment="content">
+    <h2>Product List</h2>
+
+    <div class="pull-right" style="padding-bottom: 20px;">
+        <a class="btn btn-primary btn-sm" th:href="@{/admin/products/new}">Create</a>
+    </div>
+
+    <div class="col-sm-12">
+        <table class="table table-striped table-bordered" cellspacing="0" width="100%">
+            <thead>
+            <tr>
+                <td>Title</td>
+                <td>Description</td>
+                <td>Quantity</td>
+                <td>Price</td>
+                <td>Photo</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each=" item : ${products}">
+                <td><a th:href="@{'/admin/products/' + ${item.id} + '/edit'}" th:text="${item.title}"></a></td>
+                <td th:text="${item.description}"></td>
+                <td th:text="${item.quantity}"></td>
+                <td th:text="${item.price}"></td>
+                <td><img th:src="@{'/files/' + ${item.fileName}}" /></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+
+</body>
+</html>

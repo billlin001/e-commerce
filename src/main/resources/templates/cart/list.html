@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html layout:decorator="/fragments/layout"
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+
+<div layout:fragment="content">
+
+    <div class="row">
+        <div class="col-md-12" >
+            <h2>Shopping Cart</h2>
+
+            <div th:if="${currentCart != null}">
+                <div class="total clearfix"><a th:href="@{/shoppingCart/clear}" class="btn btn-large btn-danger pull-right">Clear</a></div>
+
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <td colspan="2">Product Info</td>
+                            <td> Price</td>
+                            <td> Quantity</td>
+                            <td> Delete </td>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                            <form method="post" th:action="@{/shoppingCart/update}" th:object="${currentCart}">
+                                <tr th:each="cartItem, cartItemStat : *{cartItems}">
+                                    <td>
+                                        <img th:src="@{'/files/' + ${cartItem.fileName}}">
+                                    </td>
+                                    <td th:text="${cartItem.description}"></td>
+                                    <td th:text="${cartItem.price}"></td>
+                                    <td>
+                                        <input type="hidden">
+                                        <select th:field="*{cartItems[__${cartItemStat.index}__].quantity}">
+                                            <option th:each="i : ${#numbers.sequence(1, cartItem.maxQuantity)}"
+                                                    th:value="${i}"
+                                                    th:text="${i}">Option</option>
+                                        </select>
+                                        <input type="hidden" th:field="*{cartItems[__${cartItemStat.index}__].itemId}" />
+                                        <button style="display: none" type="submit" name="changeQuantity" value="${cartItem.itemId}" >Change</button>
+                                    </td>
+                                    <td>
+                                        <a th:href="@{'/shoppingCart/' + ${cartItem.itemId} + '/remove'}" class="btn btn-primary">移除</a>
+                                    </td>
+                                </tr>
+                            </form>
+
+                        </tbody>
+
+                    </table>
+
+                    <br>
+
+                    <div class="total clearfix" >
+                        <span class="pull-right"><span>Total: <span th:text="${currentCart.getTotalPrice() }" th:id="totalPrice"></span> NTD</span></span>
+                    </div>
+
+                    <hr>
+
+                    <div class="total clearfix" >
+                        <a th:href="@{/shoppingCart/checkout}" class="btn btn-large btn-danger pull-right">
+                            Confirm
+                        </a>
+                    </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <script lang="javascript">
+        $(function() {
+            $("select").change(function() {
+                console.log(this);
+                console.log($(this));
+                console.log($(this).siblings("button"));
+                $(this).siblings("button").click();
+            });
+
+            // This an ajax call example
+            // Setup CSRF token
+//            var token = $("meta[name='_csrf']").attr("content");
+//            var header = $("meta[name='_csrf_header']").attr("content");
+//            $(document).ajaxSend(function(e, xhr, options) {
+//                xhr.setRequestHeader(header, token);
+//            });
+//
+//            // Ajax call and setup total price
+//            $("input[name='cartItem-quantity']").blur(function() {
+//                self = this;
+//                // Setup request object
+//                var itemId = self.id.substring(self.name.length);
+//                var quantity = self.value;
+//                var requestData = JSON.stringify({itemId: itemId, quantity:quantity});
+//                console.log(requestData);
+//
+//                $.ajax({
+//                    url: "/shoppingCart/currentPrice",
+//                    method: "POST",
+//                    contentType: "application/json",
+//                    data: requestData
+//
+//                }).done(function(data){
+//                    console.log(data);
+//                    var totalPrice = data.totalPrice;
+//                    console.log(totalPrice);
+//                    $("#totalPrice").html(totalPrice);
+//                });
+//            });
+
+        });
+    </script>
+
+</div>
+
+</body>
+</html>

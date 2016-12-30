@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div th:fragment="state_option" style="padding:10px; float:right;" th:switch="${order.currentState.value}">
+    <div th:case="'order_placed'" >
+        <a th:href="@{'/admin/orders/' + ${order.id} + '/cancel'}" class="btn btn-default btn-sm">取消訂單</a>
+    </div>
+
+    <div th:case="'paid'" >
+        <a th:href="@{'/admin/orders/' + ${order.id} + '/cancel'}" class="btn btn-default btn-sm">取消訂單</a>
+        <a th:href="@{'/admin/orders/' + ${order.id} + '/shipping'}" class="btn btn-default btn-sm">出貨中</a>
+    </div>
+
+    <div th:case="'shipping'" >
+        <a th:href="@{'/admin/orders/' + ${order.id} + '/shipped'}" class="btn btn-default btn-sm">已出貨</a>
+    </div>
+
+    <div th:case="'shipped'" >
+        <a th:href="@{'/admin/orders/' + ${order.id} + '/return_good'}" class="btn btn-default btn-sm">退貨</a>
+    </div>
+
+    <div th:case="'ordder_canceled'" >
+        <span class="label label-default">訂單已取消</span>
+    </div>
+
+    <div th:case="'good_returned'" >
+        <span class="label label-default">已退貨</span>
+    </div>
+</div>
+
+</body>
+</html>

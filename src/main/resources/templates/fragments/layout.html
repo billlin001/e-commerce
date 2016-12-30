@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bill E-Commercial Website Example</title>
+
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" crossorigin="anonymous" />
+    <link rel="stylesheet" href="/css/application.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+    <div class="container">
+        <div th:replace="fragments/header :: header">...</div>
+        <div class="row alert alert-success" th:if="${isFirstLogin}">Login Sucessfully!</div>
+        <div class="row alert alert-success" th:if="${message != null}" th:text="${message}">Message</div>
+        <div layout:fragment="content" class="container"></div>
+    </div>
+</body>
+
+</html>

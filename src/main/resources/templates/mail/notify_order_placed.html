@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:remove="all">Template for HTML email with inline image</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-12">
+                <h2>
+                    訂單明細 <br>
+                    <small>
+                        <a th:href="'http://localhost:8080/user/orders/' + ${order.token}">訂單連結</a>
+                    </small>
+                </h2>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th width="70%">商品明細</th>
+                        <th>單價</th>
+                        <th>數量</th>
+                        <th>小記</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr th:each="orderItem : ${order.orderItems}">
+                            <td th:text="${orderItem.productName}">Title</td>
+                            <td th:text="${orderItem.price}">Price</td>
+                            <td th:with="result = ${cartItem.quantity * cartItem.price}" th:text="${result}"></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+                <div class="total group clearfix">
+                    <h4 class="pull-right">
+                        Total <span th:text="${order.total}">0000</span> NTD
+                    </h4>
+                </div>
+
+                <hr>
+
+                <h2> 寄送資訊 </h2>
+
+                <table class="table table-striped table-bordered">
+                    <tbody>
+                    <tr>
+                        <td> 訂購人 </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span th:text="${order.orderInfo.billingAddress}">Billing Name</span>
+                            - <span th:text="${order.orderInfo.billingAddress}">Bill Address</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td> 收件者 </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span th:text="${order.orderInfo.shippingName}">Shipping Name</span>
+                            - <span th:text="${order.orderInfo.shippingAddress}">Shipping Address</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html layout:decorator="/fragments/layout"
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <div layout:fragment="content">
+
+        <h2>訂單列表 </h2>
+
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Pay Method</th>
+
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr th:each="item : ${orders}">
+                <td><a th:href="@{'/user/orders/' + ${item.token}}"><span th:text="${item.id}"></span></a> </td>
+                <td><div th:text="${item.payMethod}"></div></td>
+            </tr>
+
+            </tbody>
+        </table>
+
+    </div>
+
+</body>
+</html>

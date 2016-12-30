@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html layout:decorate="~{fragments/layout}"
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bill E-Commercial Website Example</title>
+</head>
+
+<body>
+<div>
+
+    <div layout:fragment="content">
+        <div class="row">
+            <div class="col-xs-6 col-md-3" th:each="item : ${products}">
+                <div class="row">
+                    <a th:href="@{'/products/' + ${item.id}}">
+                        <img th:src="@{'/files/' + ${item.fileName}}" />
+                    </a>
+                </div>
+                <div class="row" th:text="${item.title} + ' $ ' + ${item.price}"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+
+</html>

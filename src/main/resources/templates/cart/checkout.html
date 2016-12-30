@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html layout:decorator="/fragments/layout" xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <div layout:fragment="content">
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <h2>Shopping Detail</h2>
+
+                <table class="table table-bordered">
+
+                    <thead>
+                        <tr>
+                            <td width="70%">Product Detail</td>
+                            <td>Price</td>
+                            <td>Quantity</td>
+                            <td>小計</td>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="cartItem : ${currentCart.cartItems}">
+                        <td><a th:href="@{'/products/' + ${cartItem}}" th:text="${cartItem.title}">Product Name</a></td>
+                        <td th:text="${cartItem.price}">Product Price</td>
+                        <td th:text="${cartItem.quantity}">Product Price</td>
+                        <td th:with="result = ${cartItem.quantity * cartItem.price}" th:text="${result}"></td>
+                    </tr>
+                    </tbody>
+
+                </table>
+
+                <div class="total clearfix">
+                    <span class="pull-right">
+                        Total <span th:text="${currentCart.getTotalPrice() }" th:id="totalPrice"></span> NTD
+                    </span>
+                </div>
+
+                <hr>
+
+                <h2>Order Info</h2>
+
+                <form th:action="@{/user/orders/create}" th:object="${orderInfoDto}" method="post">
+
+                    <legend> Billing Info </legend>
+
+                    <div th:class="${#fields.hasErrors('billingName')} ? 'form-group has-error col-lg-6' : 'form-group col-lg-6'">
+                        <label for="billingName">Billing Name</label>
+                        <input type="text" class="form-control" id="billingName" th:field="*{billingName}">
+                        <div class="help-block" th:if="${#fields.hasErrors('billingName')}" th:errors="*{billingName}">Error</div>
+                    </div>
+
+                    <div th:class="${#fields.hasErrors('billingAddress')} ? 'form-group has-error col-lg-6' : 'form-group col-lg-6'">
+                        <label for="billingAddress">Billing Address</label>
+                        <input type="text" class="form-control" id="billingAddress" th:field="*{billingAddress}">
+                        <div class="help-block" th:if="${#fields.hasErrors('billingAddress')}" th:errors="*{billingAddress}">Error</div>
+                    </div>
+
+                    <legend> Shipping Info </legend>
+
+                    <div th:class="${#fields.hasErrors('shippingName')} ? 'form-group has-error col-lg-6' : 'form-group col-lg-6'">
+                        <label for="shippingName">Shipping Name</label>
+                        <input type="text" class="form-control" id="shippingName" th:field="*{shippingName}">
+                        <div class="help-block" th:if="${#fields.hasErrors('shippingName')}" th:errors="*{shippingName}">Error</div>
+                    </div>
+
+                    <div th:class="${#fields.hasErrors('shippingAddress')} ? 'form-group has-error col-lg-6' : 'form-group col-lg-6'">
+                        <label for="shippingAddress">Shipping Address</label>
+                        <input type="text" class="form-control" id="shippingAddress" th:field="*{shippingAddress}">
+                        <div class="help-block" th:if="${#fields.hasErrors('shippingAddress')}" th:errors="*{shippingAddress}">Error</div>
+                    </div>
+
+                    <button type="submit" class="btn btn-lg btn-danger pull-right">Create Order</button>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
